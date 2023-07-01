@@ -10,6 +10,7 @@ class Enemy extends ImageTile {
 
     constructor(position) { /// n percebo nada desta merda
         super(position);
+        this.health = 2
 
 
 

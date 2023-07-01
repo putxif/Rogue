@@ -25,7 +25,7 @@ class FireTile extends ImageTile {
     * Caso retorne true, a FireTile é removida do jogo.
     * Implementar nas subclasses.
     */
-    validateImpact() {}
+    //validateImpact() {}
 
     update() {
         if(!this.#active) return;

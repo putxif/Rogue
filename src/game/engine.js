@@ -67,7 +67,7 @@ class Engine {
             let fireball = this.hero.fireball[fireballIndex]
             if (fireball) {
                 this.gui.removeImage(fireball)
-                fireball.room = this.room.roomTiles
+                fireball.room = this.room
                 fireball.position = this.hero.position
                 this.gui.addImage(fireball)
                 this.hero.fireball.splice(fireballIndex, 1)
@@ -109,7 +109,7 @@ class Engine {
 
 
 
-            //console.log(enemies)
+            console.log(enemies)
             //enemies.forEach(enemy => enemy.moveEnemiesRandom(roomTiles))
         }
 
