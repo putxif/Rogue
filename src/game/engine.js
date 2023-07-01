@@ -9,7 +9,7 @@ import Enemy from "../objects/enemies.js";
 
 
 
-class Engine {
+class Engine {git
     hero = new Hero(new Position(2, 7))
     room = new Room(2)
     gui = Interface.getInstance();
