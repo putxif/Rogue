@@ -6,13 +6,16 @@ import Room from "../objects/room.js";
 import Direction from "../util/direction.js";
 import Wall from "../objects/wall.js";
 import Enemy from "../objects/enemies.js";
+import {StatusBar} from "../status/barstatus.js";
+import position from "../util/position.js";
 
 
 
-class Engine {git
+class Engine {
     hero = new Hero(new Position(2, 7))
     room = new Room(2)
     gui = Interface.getInstance();
+    statusbar = new StatusBar()
 
 
 
@@ -38,7 +41,10 @@ class Engine {git
 
         //this.hero.position = this.room.heroPosition //se comentar, consigo ver outras salas
         this.gui.addImage(this.hero);
+        this.gui.addImages(this.statusbar.getBlackTiles())
+        this.gui.addImages(this.statusbar.getFireTiles())
         this.gui.addStatusImages(this.hero.healthBar.getHealthTiles())
+
 
 
 

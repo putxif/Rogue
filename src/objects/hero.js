@@ -1,5 +1,5 @@
 import ImageTile from "../game/imageTile.js";
-import {HealthBar} from "../Health/healthbar.js";
+import {HealthBar} from "../status/healthbar.js";
 
 class Hero extends ImageTile {
     healthBar = new HealthBar()

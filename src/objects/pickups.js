@@ -27,8 +27,19 @@ class Meat extends Pickups {
     get image() {
         return 'GoodMeat.png'
     }
+
+
+}
+class Key extends Pickups {
+    constructor(position) {
+        super(position);
+    }
+
+    get image() {
+        return 'Key.png'
+    }
 }
 
-export {Meat, Hammer}
+export {Meat, Hammer, Key}
 
 export default Pickups

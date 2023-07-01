@@ -7,7 +7,7 @@ import Door from "./door.js";
 import Hero from "./hero.js";
 
 import Enemy, {Skeleton, Bat, Badguy} from "./enemies.js";
-import Pickups, {Hammer, Meat} from "./pickups.js";
+import Pickups, {Hammer, Key, Meat} from "./pickups.js";
 
 
 
@@ -41,9 +41,6 @@ import Pickups, {Hammer, Meat} from "./pickups.js";
                         //this.wallTiles.push(new Hero(position))
                         this.heroPosition = position
                         break;
-                    case '0' :
-                        this.roomTiles.push((new Door(position)))
-                        break;
                     case 'B' :
                         this.roomTiles.push(new Bat(position))
                         break;
@@ -55,6 +52,13 @@ import Pickups, {Hammer, Meat} from "./pickups.js";
                         break;
                     case 'h' :
                         this.roomTiles.push(new Hammer(position))
+                        break;
+                    case 'k' :
+                        this.roomTiles.push(new Key(position))
+                        break;
+                    default :
+                        if(columns[x] === "1" || columns[x] === "2" || columns[x] === "0") this.roomTiles.push((new Door(position)))
+                        break;
 
                 }
 

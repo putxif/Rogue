@@ -6,6 +6,9 @@ export class HealthBar {
     health = 8
 
 
+
+
+
     getHealthTiles() { // udpdate
         let healthBar = []
         for (let i = 0; i < 8; i += 2) {
