@@ -5,7 +5,7 @@ import Door from "./door.js";
 import Position from "../util/position.js";
 import Vector2d from "../util/vector2d.js";
 
-class Enemy extends ImageTile {   //extends movable???
+class Enemy extends ImageTile {
 
 
     constructor(position) { /// n percebo nada desta merda
@@ -108,5 +108,5 @@ class Badguy extends Enemy {
 }
 
 
-export {Skeleton, Bat, Badguy}; //confuso, pensava q ao importar a superclass, importava tudo
+export {Skeleton, Bat, Badguy};
 export default Enemy;

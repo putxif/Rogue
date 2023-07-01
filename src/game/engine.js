@@ -7,13 +7,13 @@ import Direction from "../util/direction.js";
 import Wall from "../objects/wall.js";
 import Enemy from "../objects/enemies.js";
 import {StatusBar} from "../status/barstatus.js";
-import position from "../util/position.js";
+import Fireball from "../objects/fireball.js";
 
 
 
 class Engine {
     hero = new Hero(new Position(2, 7))
-    room = new Room(2)
+    room = new Room(1)
     gui = Interface.getInstance();
     statusbar = new StatusBar()
 
@@ -42,7 +42,7 @@ class Engine {
         //this.hero.position = this.room.heroPosition //se comentar, consigo ver outras salas
         this.gui.addImage(this.hero);
         this.gui.addImages(this.statusbar.getBlackTiles())
-        this.gui.addImages(this.statusbar.getFireTiles())
+        this.gui.addStatusImages(this.statusbar.getFireTiles())
         this.gui.addStatusImages(this.hero.healthBar.getHealthTiles())
 
 
@@ -60,6 +60,22 @@ class Engine {
 
 
    keyPressed(key) {
+        if (key === "Space") {
+        let fireballIndex = this.hero.fireball.findIndex(fireball => {
+                return fireball instanceof Fireball
+            })
+            let fireball = this.hero.fireball[fireballIndex]
+            if (fireball) {
+                this.gui.removeImage(fireball)
+                fireball.room = this.room.roomTiles
+                fireball.position = this.hero.position
+                this.gui.addImage(fireball)
+                this.hero.fireball.splice(fireballIndex, 1)
+                this.gui.update()
+                fireball.start()
+            }
+            return ;
+        }
         //console.log("User pressed key", key);//ArrowUp, ArrowDown etc..
         //determinar a direcao com base na tecla pressionada
         let direction = key.split("Arrow")[1]//Down;Up;Right;Left
