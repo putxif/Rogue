@@ -8,7 +8,7 @@ import Vector2d from "../util/vector2d.js";
 class Enemy extends ImageTile {
 
 
-    constructor(position) { /// n percebo nada desta merda
+    constructor(position) {
         super(position);
         this.health = 2
 
@@ -50,7 +50,7 @@ class Enemy extends ImageTile {
         })
 
         if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy )) {
-           // if (nextTile instanc)
+
             this.position = nextPosition
         }
     }

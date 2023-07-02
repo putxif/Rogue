@@ -13,7 +13,7 @@ import Fireball from "../objects/fireball.js";
 
 class Engine {
     hero = new Hero(new Position(2, 7))
-    room = new Room(1)
+    room = new Room(2)
     gui = Interface.getInstance();
     statusbar = new StatusBar()
 

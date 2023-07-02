@@ -1,7 +1,6 @@
 import ImageTile from "../game/imageTile.js";
 import {HealthBar} from "../status/healthbar.js";
 import Fireball from "./fireball.js";
-import position from "../util/position.js";
 import Position from "../util/position.js";
 
 class Hero extends ImageTile {
