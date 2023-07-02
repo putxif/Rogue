@@ -2,8 +2,8 @@ import ImageTile from "../game/imageTile.js";
 import Direction from "../util/direction.js";
 import Wall from "./wall.js";
 import Door from "./door.js";
-import Position from "../util/position.js";
 import Vector2d from "../util/vector2d.js";
+import Hero from "./hero.js";
 
 class Enemy extends ImageTile {
 
@@ -11,9 +11,6 @@ class Enemy extends ImageTile {
     constructor(position) {
         super(position);
         this.health = 2
-
-
-
     }
 
 
@@ -30,7 +27,7 @@ class Enemy extends ImageTile {
             return nextPosition.equals(imageTile.position)
         })
 
-        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy)) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero)) {
             this.position = nextPosition
         }
 
@@ -49,7 +46,7 @@ class Enemy extends ImageTile {
             return nextPosition.equals(imageTile.position)
         })
 
-        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy )) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero)) {
 
             this.position = nextPosition
         }

@@ -8,6 +8,7 @@ import Wall from "../objects/wall.js";
 import Enemy from "../objects/enemies.js";
 import {StatusBar} from "../status/barstatus.js";
 import Fireball from "../objects/fireball.js";
+import Pickups from "../objects/pickups.js";
 
 
 
@@ -44,7 +45,7 @@ class Engine {
         this.gui.addImages(this.statusbar.getBlackTiles())
         this.gui.addStatusImages(this.statusbar.getFireTiles())
         this.gui.addStatusImages(this.hero.healthBar.getHealthTiles())
-
+        this.gui.addStatusImages(this.hero.items)
 
 
 
@@ -61,12 +62,13 @@ class Engine {
 
    keyPressed(key) {
         if (key === "Space") {
-        let fireballIndex = this.hero.fireball.findIndex(fireball => {
+            let fireballIndex = this.hero.fireball.findIndex(fireball => {
                 return fireball instanceof Fireball
             })
-            let fireball = this.hero.fireball[fireballIndex]
+            //selecionar fireball
+            let fireball = this.hero.fireball[fireballIndex] //caso exista, devolve e remove da lista de fireballs do hero
             if (fireball) {
-                this.gui.removeImage(fireball)
+                this.gui.removeStatusImage(fireball)
                 fireball.room = this.room
                 fireball.position = this.hero.position
                 this.gui.addImage(fireball)
@@ -90,7 +92,7 @@ class Engine {
             return newHeroPosition.equals(imageTile.position)
         })
         //atualizar posicao do hero caso o nextTile nao seja Wall
-        if (!(nextTile instanceof Wall)) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Enemy)) {
             this.hero.position = newHeroPosition;
             //atualizar as posicoes dos inmigos
             let enemies = roomTiles.filter(imageTile => { //still confuso
@@ -101,13 +103,23 @@ class Engine {
                 //console.log(distancia)
 
                 if(distancia <= 4) {
-                    enemy.moveCloser(this.hero.position,roomTiles);
+                    enemy.moveCloser(newHeroPosition,roomTiles);
                 } else {
                     enemy.moveEnemiesRandom(roomTiles);
                 }
             })
-
-
+            if (nextTile instanceof Pickups) {
+                try {
+                    this.hero.pickItem(nextTile)
+                    this.gui.removeImage(nextTile)
+                    this.gui.addStatusImages(this.hero.items)//atencao que isto adiciona varias vezes o mesmo item
+                    this.gui.update()
+                    
+                } catch (e) {
+                    console.log("erro apanhar item", e)
+                }
+                
+            }
 
             console.log(enemies)
             //enemies.forEach(enemy => enemy.moveEnemiesRandom(roomTiles))

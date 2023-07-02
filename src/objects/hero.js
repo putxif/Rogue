@@ -8,6 +8,7 @@ class Hero extends ImageTile {
     fireball = [new Fireball(new Position(0,-1)),
         new Fireball(new Position(1,-1)),
         new Fireball(new Position(2,-1))]
+    items = []
 
     static #instance;
     static getInstance() {
@@ -25,6 +26,31 @@ class Hero extends ImageTile {
         return "Hero.png";
     }
 
+    useFireball() {
+        //procurar fireball
+
+        //remover fireball
+        //devolve fireball
+    }
+
+    pickItem(item) {
+        //verificar se pode apanhar item
+        if (this.items.length === 3) {
+            throw "Items cheio"
+        } else {
+            item.position = new Position(6 + this.items.length + 1, -1)
+            this.items.push(item)
+        }
+        console.log(this.items)
+    }
+
+    useItem(itemNumber) {//1, 2, 3
+
+    }
+
+    getItemsTiles() {
+        return this.items
+    }
 
 }
 
