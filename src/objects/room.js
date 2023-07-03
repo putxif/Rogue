@@ -14,11 +14,10 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
  class Room {
     currentRoom;
     roomTiles = [];
-    heroPosition;
-    constructor(currentRoom, roomTiles,heroPosition) {
-        this.currentRoom = currentRoom; //n podia ser = 0?
-        //this.roomTiles = roomTiles; ///crasha o jogo porque???
-        //this.heroPosition = heroPosition //crasha o jogo porque??????????
+    hero;
+    constructor(currentRoom,hero) {
+        this.currentRoom = currentRoom;
+        this.hero = hero;
 
         let room = Room.getRoom(this.currentRoom);
 
@@ -38,8 +37,8 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
                         this.roomTiles.push(new Skeleton(position))
                         break;
                     case 'H' :
-                        //this.wallTiles.push(new Hero(position))
-                        this.heroPosition = position
+                        this.hero.position = position
+                        this.roomTiles.push(this.hero)
                         break;
                     case 'B' :
                         this.roomTiles.push(new Bat(position))

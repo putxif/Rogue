@@ -5,7 +5,11 @@ import Fireball from "../objects/fireball.js";
 import Hero from "../objects/hero.js";
 
 export class StatusBar {
-hero = Hero.getInstance()
+    hero
+
+    constructor(hero) {
+        this.hero = hero;
+    }
 
 
 

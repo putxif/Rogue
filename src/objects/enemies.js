@@ -19,7 +19,7 @@ class Enemy extends ImageTile {
     moveEnemiesRandom(surroundings) {
         let directions = [Direction.DOWN, Direction.LEFT, Direction.UP, Direction.RIGHT]
         let randomIndex = Math.floor((Math.random() * directions.length))//pode ser 0, 1, 2 ou 3
-        console.log("random index", randomIndex)
+       // console.log("random index", randomIndex)
 
         let nextPosition = this.position.plus(directions[randomIndex].asVector()) //(3, 2)
         //ver se next position é permitida
@@ -29,6 +29,8 @@ class Enemy extends ImageTile {
 
         if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero)) {
             this.position = nextPosition
+            console.log("estou aqui")
+
         }
 
     }

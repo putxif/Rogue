@@ -2,6 +2,9 @@ import ImageTile from "../game/imageTile.js";
 import {HealthBar} from "../status/healthbar.js";
 import Fireball from "./fireball.js";
 import Position from "../util/position.js";
+import Direction from "../util/direction.js";
+import Wall from "./wall.js";
+import Enemy from "./enemies.js";
 
 class Hero extends ImageTile {
     healthBar = new HealthBar()
@@ -9,15 +12,7 @@ class Hero extends ImageTile {
         new Fireball(new Position(1,-1)),
         new Fireball(new Position(2,-1))]
     items = []
-
-    static #instance;
-    static getInstance() {
-        if(Hero.#instance === undefined) {
-            Hero.#instance = new Hero();
-        }
-        return Hero.#instance;
-    }
-
+    
     constructor(position) {
         super(position);
     }
@@ -26,12 +21,47 @@ class Hero extends ImageTile {
         return "Hero.png";
     }
 
-    useFireball() {
-        //procurar fireball
-
-        //remover fireball
-        //devolve fireball
+    moveHero(key) {
+        console.log("hello")
+        let direction = key.split("Arrow")[1]//Down;Up;Right;Left
+        let directionVector = new Direction(direction.toUpperCase()).asVector() //console.log(directionVector)
+        //mover o hero para a nova posicao
+        let heroPosition = this.position;
+        let newHeroPosition = heroPosition.plus(directionVector) //possivel futura posicao
+        //ver o que está na nova posicao
+        let roomTiles = this.room.roomTiles;
+        //console.log(roomTiles)
+        let nextTile = roomTiles.find(imageTile => {
+            return newHeroPosition.equals(imageTile.position)
+        })
+        //atualizar posicao do hero caso o nextTile nao seja Wall
+        if (!(nextTile instanceof Wall || nextTile instanceof Enemy)) {
+            this.hero.position = newHeroPosition;
+        }
     }
+
+
+
+    /*useFireball() {
+        let fireballIndex = this.hero.fireball.findIndex(fireball => {
+            return fireball instanceof Fireball
+            console.log(fireballIndex)
+        })
+        //selecionar fireball
+        let fireball = this.hero.fireball[fireballIndex] //caso exista, devolve e remove da lista de fireballs do hero
+        if (fireball) {
+            this.gui.removeStatusImage(fireball)
+            fireball.room = this.room
+            fireball.position = this.hero.position
+            this.gui.addImage(fireball)
+            this.hero.fireball.splice(fireballIndex, 1)
+            this.gui.update()
+            fireball.start()
+        }
+        //return ;
+
+
+    } */
 
     pickItem(item) {
         //verificar se pode apanhar item
@@ -53,6 +83,8 @@ class Hero extends ImageTile {
     }
 
 }
+
+
 
 
 export default Hero;

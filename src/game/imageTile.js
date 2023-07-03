@@ -14,6 +14,8 @@ class ImageTile {
     }
 
     set position(position) {
+        if(this.image === "Hero.png")
+            console.log("antiga: " +this.#position + " nova: " + position)
         this.#position = position;
     }
 

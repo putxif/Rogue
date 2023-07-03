@@ -41,6 +41,7 @@ class Interface {
     }
 
     #processImage(image, beforeIndex) {
+console.log(image.position)
         let x = image.position.x * Interface.#X_RATIO;
         let y = (image.position.y + 1) * Interface.#Y_RATIO;
         let element = document.createElement("img");
