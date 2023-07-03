@@ -20,6 +20,16 @@ export class HealthBar {
 
         return healthBar;
     }
+
+    gainHealth(earningValue) {
+        this.health += earningValue
+        return this.health
+    }
+
+    loseHealth(losingValue) {
+        this.health -= losingValue
+        return this.health
+    }
 }
 
 

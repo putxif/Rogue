@@ -4,16 +4,15 @@ import Wall from "./wall.js";
 import Door from "./door.js";
 import Vector2d from "../util/vector2d.js";
 import Hero from "./hero.js";
-import Combat from "../game/combat.js";
 import Pickups from "./pickups.js";
 
-class Enemy extends Combat {
+class Enemy extends ImageTile {
 
 
-    constructor(position) {
+    constructor(position, damage) {
         super(position);
         this.health = 2
-        this.dmg = 1
+        this.dmg = damage || 1//default é 1
     }
 
 
@@ -88,7 +87,7 @@ class Enemy extends Combat {
 
 class Bat extends Enemy {
     constructor(position) {
-        super(position);
+        super(position, 2);
     }
 
     get image() {

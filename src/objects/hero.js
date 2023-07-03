@@ -3,8 +3,7 @@ import {HealthBar} from "../status/healthbar.js";
 import Fireball from "./fireball.js";
 import Position from "../util/position.js";
 import Direction from "../util/direction.js";
-import Wall from "./wall.js";
-import Enemy from "./enemies.js";
+import Floor from "./floor.js";
 import Combat from "../game/combat.js";
 import Interface from "../game/interface.js";
 
@@ -15,9 +14,9 @@ class Hero extends Combat {
         new Fireball(new Position(1,-1)),
         new Fireball(new Position(2,-1))]
     items = []
+    dmg = 1
     constructor(position) {
         super(position);
-        this.dmg = 1
     }
 
     get image() {
@@ -72,22 +71,25 @@ class Hero extends Combat {
         console.log(this.items)
     }
 
-    dropItem(itemNumber, roomTiles) {//1, 2, 3
+    dropItem(itemNumber, roomTiles, dropPosition) {//1, 2, 3
         let itemIndex = this.items.findIndex(item => item.position.x === +itemNumber + 6)
         let item = this.items[itemIndex]
         if(item) {
-            let tile = roomTiles.find(tile => tile.position.equals(item.position))
-            if (!tile) throw new Error("Items nao podem estar na mesma posicao") // ainda n esta a funcionar
-            else { this.items.splice(itemIndex, 1)
+            let tile = roomTiles.find(tile => !(tile instanceof Floor) && !(tile instanceof Hero) && tile.position.equals(dropPosition))
+            if (tile) throw new Error("Items nao podem estar na mesma posicao") // ainda n esta a funcionar
+            else {
+                this.items.splice(itemIndex, 1)
                 return item
-                }
+            }
         } else throw new Error("Item não foi encontrado")
-
-
     }
 
-    getItemsTiles() {
-        return this.items
+    fightEnemy(enemy) {
+        //atualizar vidas
+        console.log("perdeste ", enemy.dmg, "de vida")
+        this.healthBar.loseHealth(enemy.dmg)
+        //ver se alguem morreu
+
     }
 
 }
