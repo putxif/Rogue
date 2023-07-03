@@ -4,13 +4,16 @@ import Wall from "./wall.js";
 import Door from "./door.js";
 import Vector2d from "../util/vector2d.js";
 import Hero from "./hero.js";
+import Combat from "../game/combat.js";
+import Pickups from "./pickups.js";
 
-class Enemy extends ImageTile {
+class Enemy extends Combat {
 
 
     constructor(position) {
         super(position);
         this.health = 2
+        this.dmg = 1
     }
 
 
@@ -27,9 +30,8 @@ class Enemy extends ImageTile {
             return nextPosition.equals(imageTile.position)
         })
 
-        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero)) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero ||nextTile instanceof Pickups)) {
             this.position = nextPosition
-            console.log("estou aqui")
 
         }
 
@@ -48,12 +50,22 @@ class Enemy extends ImageTile {
             return nextPosition.equals(imageTile.position)
         })
 
-        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero)) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero || nextTile instanceof Pickups)) {
 
             this.position = nextPosition
         }
     }
 
+    moveEnemies(hero, roomTiles, newHeroPosition) {
+        const distancia = Math.sqrt((hero.position.x - this.position.x) ** 2 + (hero.position.y - this.position.y) ** 2);
+        //console.log(distancia)
+
+        if (distancia <= 4) {
+            this.moveCloser(hero.position, roomTiles);
+        } else {
+            this.moveEnemiesRandom(roomTiles);
+        }
+    }
 
 
     distanceTo(position) {

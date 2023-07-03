@@ -74,6 +74,12 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
             return room2;
         }
     }
+
+    removeTile(tile) {
+        let roomTileIndex = this.roomTiles.findIndex(obj => obj.position.equals(tile.position))
+        if(roomTileIndex > -1) this.roomTiles.splice(roomTileIndex, 1)
+
+    }
 }
 
 

@@ -9,12 +9,14 @@ import Enemy from "../objects/enemies.js";
 import {StatusBar} from "../status/barstatus.js";
 import Fireball from "../objects/fireball.js";
 import Pickups from "../objects/pickups.js";
+import direction from "../util/direction.js";
+import hero from "../objects/hero.js";
 
 
 
 class Engine {
-    hero = new Hero(new Position(3,3))
-    room = new Room(0,this.hero)
+    hero = new Hero(new Position(3,7))
+    room = new Room(2,this.hero)
     gui = Interface.getInstance();
     statusbar = new StatusBar(this.hero);
 
@@ -35,9 +37,9 @@ class Engine {
 
 
         this.gui.addImages(this.room.roomTiles);
+        let isHeroInRoom = this.room.roomTiles.find((tile) => tile === this.hero);
+        if(!isHeroInRoom) this.room.roomTiles.push(this.hero);
 
-        //
-        //this.hero.position = this.room.heroPosition //se comentar, consigo ver outras salas
         this.gui.addImage(this.hero);
         this.gui.addImages(this.statusbar.getBlackTiles())
         this.gui.addStatusImages(this.statusbar.getFireTiles())
@@ -45,76 +47,65 @@ class Engine {
         this.gui.addStatusImages(this.hero.items)
 
 
-        //let fireball = new FireBall(new Position(5, 3), Direction.RIGHT);
-        //this.gui.addImage(fireball);
-        //fireball.start();
-
         this.gui.start();
     }
 
     keyPressed(key) {
         if (key === "Space") {
-            let fireballIndex = this.hero.fireball.findIndex(fireball => {
-                return fireball instanceof Fireball
-            })
-            //selecionar fireball
-            let fireball = this.hero.fireball[fireballIndex] //caso exista, devolve e remove da lista de fireballs do hero
-            if (fireball) {
-                this.gui.removeStatusImage(fireball)
-                fireball.room = this.room
-                fireball.position = this.hero.position
-                this.gui.addImage(fireball)
-                this.hero.fireball.splice(fireballIndex, 1)
-                this.gui.update()
-                fireball.start()
-            }
+            this.hero.useFireball(this.room)
             return;
         }
-        //console.log("User pressed key", key);//ArrowUp, ArrowDown etc..
-        //determinar a direcao com base na tecla pressionada
+
         let direction = key.split("Arrow")[1]//Down;Up;Right;Left
-        let directionVector = new Direction(direction.toUpperCase()).asVector() //console.log(directionVector)
-        //mover o hero para a nova posicao
-        let heroPosition = this.hero.position;
-        let newHeroPosition = heroPosition.plus(directionVector) //possivel futura posicao
-        //ver o que está na nova posicao
-        let roomTiles = this.room.roomTiles;
-        //console.log(roomTiles)
-        let nextTile = roomTiles.find(imageTile => {
-            return newHeroPosition.equals(imageTile.position)
-        })
-        //atualizar posicao do hero caso o nextTile nao seja Wall
-        if (!(nextTile instanceof Wall || nextTile instanceof Enemy)) {
-            this.hero.position = newHeroPosition;
-            //atualizar as posicoes dos inmigos
-            let enemies = roomTiles.filter(imageTile => {
-                return imageTile instanceof Enemy
-            })
-            enemies.forEach((enemy) => {
-                const distancia = Math.sqrt((this.hero.position.x - enemy.position.x) ** 2 + (this.hero.position.y - enemy.position.y) ** 2);
-                //console.log(distancia)
+        if (direction === "Down" || direction === "Up" || direction === "Left" || direction === "Right") {
+            let roomTiles = this.room.roomTiles;
+            let { nextTile, newHeroPosition } = this.hero.moveHero(direction,roomTiles)
+            if (!(nextTile instanceof Wall || nextTile instanceof Enemy)) {
+                this.hero.position = newHeroPosition;
+                //atualizar as posicoes dos inmigos
+                let enemies = roomTiles.filter(imageTile => {
+                    return imageTile instanceof Enemy
+                })
+                enemies.forEach((enemy) => {
+                    enemy.moveEnemies(this.hero, this.room.roomTiles,)
+                })
 
-                if (distancia <= 4) {
-                    enemy.moveCloser(newHeroPosition, roomTiles);
-                } else {
-                    enemy.moveEnemiesRandom(roomTiles);
-                }
-            })
-            if (nextTile instanceof Pickups) {
-                try {
-                    this.hero.pickItem(nextTile)
-                    this.gui.removeImage(nextTile)
-                    this.gui.addStatusImages(this.hero.items)//atencao que isto adiciona varias vezes o mesmo item
-                    this.gui.update()
+                if (nextTile instanceof Pickups) {
+                    try {
+                        this.hero.pickItem(nextTile)
+                        this.gui.removeImage(nextTile)
+                        this.gui.addStatusImage(nextTile)//atencao que isto adiciona varias vezes o mesmo item
+                        this.gui.update()
 
-                } catch (e) {
-                    console.log("erro apanhar item", e)
+                    } catch (e) {
+                        console.log("erro apanhar item", e)
+                    }
+
                 }
+
+                //console.log(enemies)
+            }
+        }
+        if (key === "1" || key === "2" || key === "3") {
+            try {
+                let item = this.hero.dropItem(key, this.room.roomTiles);
+                this.gui.removeStatusImage(item);
+                item.position = this.hero.position;
+                this.gui.addImage(item, this.hero)
+                this.room.roomTiles.push(item)
+                this.gui.update()
+
+
+
+            } catch(e) {
+                console.log(e.message)
 
             }
-
-            //console.log(enemies)
         }
+
+
+        //atualizar posicao do hero caso o nextTile nao seja Wall
+
 
     }
 }

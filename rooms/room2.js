@@ -6,7 +6,7 @@ export default `
 # k key1
 #
 WWWWWWWWWW
-WS   G   W
+WS     G W
 W        W
 W  m  k  W
 W        W
