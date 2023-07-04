@@ -5,9 +5,10 @@ import Door from "./door.js";
 import Enemy from "./enemies.js";
 import Interface from "../game/interface.js";
 import Blood from "./blood.js";
+import FireTile from "../game/firetile.js";
 
 
-class Fireball extends firetile {
+class Fireball extends FireTile {
     room;
     gui = Interface.getInstance();
 
@@ -20,22 +21,24 @@ class Fireball extends firetile {
         return "Fire.gif"
     }
 
-    validateImpact() {
+   validateImpact() {
         let nextTileIndex = this.room.roomTiles.findIndex(imageTile => {
             return this.position.equals(imageTile.position)
         })
         let nextTile = this.room.roomTiles[nextTileIndex]
         if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy)) {
             return false
-        } else {
-            if (nextTile instanceof Enemy) {
+        } else if (nextTile instanceof Enemy) {
+                //mata o enemy
                 this.gui.removeImage(nextTile)
                 this.room.roomTiles.splice(nextTileIndex, 1)
                 let dead = new Blood(nextTile.position)
                 this.gui.addImage(dead)
-            }
+                //
             return true;
         }
+        return false;
+
     }
 }
 

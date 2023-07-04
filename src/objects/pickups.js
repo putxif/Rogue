@@ -31,6 +31,7 @@ class Meat extends Pickups {
 
 }
 class Key extends Pickups {
+    //TODO adicionar id da chave: "key1" "key2"
     constructor(position) {
         super(position);
     }

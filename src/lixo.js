@@ -3,6 +3,7 @@ import Direction from "./util/direction.js";
 import Wall from "./objects/wall.js";
 import Enemy from "./objects/enemies.js";
 import Pickups from "./objects/pickups.js";
+import Blood from "./objects/blood.js";
 /*
 keyPressed(key) {
     if (key === "Space") {
@@ -71,3 +72,19 @@ keyPressed(key) {
 }
 
 */
+
+
+
+
+
+/*fightEnemy(enemy) { //fazer ao contrario, fight enemy o enemy perde dano
+    //atualizar vidas
+    console.log("perdeste ", enemy.dmg, "de vida")
+    this.healthBar.loseHealth(enemy.dmg)
+    console.log(this.healthBar)
+    //ver se alguem morreu
+    if (this.healthBar.health === 0) {
+        this.gui.removeImage(this)
+        let dead = new Blood(this.position)
+        this.gui.addImage(dead)
+        this.gui.showMessage("Perdeu", "error", 2000) */

@@ -3,7 +3,7 @@ export default `
 # 0 D room1.txt 2
 #
 WWWW0WWWWW
-W      m W
+W        W
 W  S     W
 WWWWW    W
 W   W    W

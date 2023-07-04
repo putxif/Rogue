@@ -7,14 +7,16 @@ import Floor from "./floor.js";
 import Interface from "../game/interface.js";
 import Blood from "./blood.js";
 import Enemy from "./enemies.js";
+
 class Hero extends ImageTile {
     gui = Interface.getInstance();
     healthBar = new HealthBar()
-    fireball = [new Fireball(new Position(0,-1)),
-        new Fireball(new Position(1,-1)),
-        new Fireball(new Position(2,-1))]
+    fireball = [new Fireball(new Position(0, -1)),
+        new Fireball(new Position(1, -1)),
+        new Fireball(new Position(2, -1))]
     items = []
     dmg = 1
+
     constructor(position) {
         super(position);
     }
@@ -39,7 +41,6 @@ class Hero extends ImageTile {
             newHeroPosition
         }
     }
-
 
 
     useFireball(room) {
@@ -74,7 +75,7 @@ class Hero extends ImageTile {
     dropItem(itemNumber, roomTiles, dropPosition) {//1, 2, 3
         let itemIndex = this.items.findIndex(item => item.position.x === +itemNumber + 6)
         let item = this.items[itemIndex]
-        if(item) {
+        if (item) {
             let tile = roomTiles.find(tile => !(tile instanceof Floor) && !(tile instanceof Hero) && tile.position.equals(dropPosition))
             if (tile) throw new Error("Items nao podem estar na mesma posicao")
             else {
@@ -84,28 +85,25 @@ class Hero extends ImageTile {
         } else throw new Error("Item não foi encontrado")
     }
 
-    fightEnemy(enemy) {
+    fightEnemy(enemy, roomTiles) { //fazer ao contrario, fight enemy o enemy perde dano
         //atualizar vidas
-        console.log("perdeste ", enemy.dmg, "de vida")
+        // console.log("perdeste ", enemy.dmg, "de vida")
+        console.log("enemy", enemy)
         this.healthBar.loseHealth(enemy.dmg)
-        console.log(this.healthBar)
+        let currentTileIndex = roomTiles.findIndex(imageTile => {
+            return this.position.equals(imageTile.position)
+        })
+        //console.log(this.healthBar)
         //ver se alguem morreu
         if (this.healthBar.health === 0) {
             this.gui.removeImage(this)
+            roomTiles.splice(currentTileIndex, 1)
             let dead = new Blood(this.position)
             this.gui.addImage(dead)
             this.gui.showMessage("Perdeu", "error", 2000)
-
         }
-
-
-
-
     }
-
 }
-
-
 
 
 export default Hero;

@@ -16,7 +16,7 @@ import Enemies from "../objects/enemies.js";
 
 class Engine {
     hero = new Hero(new Position(3, 7))
-    room = new Room(2, this.hero)
+    room = new Room(1, this.hero)
     gui = Interface.getInstance();
     statusbar = new StatusBar(this.hero);
 
@@ -65,8 +65,6 @@ class Engine {
                 this.hero.useFireball(this.room)
                 return;
             }
-            //this.gui.showMessage("Mensagem sucesso", "success")
-            //this.gui.showMessage("Mensagem erro", "error")
 
             let direction = key.split("Arrow")[1]//Down;Up;Right;Left
             if (["Down", "Up", "Right", "Left"].includes(direction)) {
@@ -80,14 +78,14 @@ class Engine {
                     this.hero.position = newHeroPosition;
                     //atualizar as posicoes dos inmigos
                     enemies.forEach((enemy) => {
-                        enemy.moveEnemies(this.hero, this.room.roomTiles,)
+                        enemy.moveEnemies(this.hero, this.room.roomTiles)
                     })
 
                     if (nextTile instanceof Pickups) {
                         try {
                             this.hero.pickItem(nextTile)
                             this.gui.removeImage(nextTile)
-                            this.gui.addStatusImage(nextTile)//atencao que isto adiciona varias vezes o mesmo item
+                            this.gui.addStatusImage(nextTile)
 
                         } catch (e) {
                             console.log("erro apanhar item", e)
@@ -95,17 +93,16 @@ class Engine {
 
                     }
 
-                } else if (nextTile instanceof Enemy || nextTile instanceof Hero) {
+                } else if (nextTile instanceof Enemy){
                     //lutar
-                    this.hero.fightEnemy(nextTile)
-                    nextTile.fightHero(this.hero)
+                    this.hero.fightEnemy(nextTile, this.room.roomTiles)
+                    nextTile.fightHero(this.hero, this.room.roomTiles)
 
                     /*for (let enemy of enemies)
                         enemy.fightHero(nextTile)
 */
 
                     //atualizar status
-                    this.updateStatusImages()
 
 
                 }
@@ -119,6 +116,7 @@ class Engine {
                 this.room.roomTiles.push(item)
 
             }
+            this.updateStatusImages()
             this.gui.update()
         } catch (e) {
             this.gui.showMessage(e.message || e, "error")

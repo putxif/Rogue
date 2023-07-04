@@ -5,15 +5,20 @@ import Door from "./door.js";
 import Vector2d from "../util/vector2d.js";
 import Hero from "./hero.js";
 import Pickups from "./pickups.js";
+import Blood from "./blood.js";
+import Interface from "../game/interface.js";
+
 
 class Enemy extends ImageTile {
+    gui = Interface.getInstance();
 
 
 
-    constructor(position) {
+
+    constructor(position, damage) {
         super(position);
         this.health = 2
-        this.dmg = 1
+        this.dmg = damage || 1 //ser possível definir um valor diferente para o dano
     }
 
 
@@ -51,8 +56,11 @@ class Enemy extends ImageTile {
         })
 
         if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy || nextTile instanceof Hero || nextTile instanceof Pickups)) {
-
             this.position = nextPosition
+        }
+        if (nextTile instanceof Hero) {
+            console.log("dar dano ao hero")
+            nextTile.fightEnemy(this, surroundings)
         }
     }
 
@@ -84,10 +92,23 @@ class Enemy extends ImageTile {
 
     }
 
-   fightHero(hero) {
+   fightHero(hero, roomTiles) {  //aqui para o hero perder dano
         this.enemyLoseHealth(hero.dmg)
         console.log(this)
+       let currentTileIndex = roomTiles.findIndex(imageTile => {
+           return this.position.equals(imageTile.position)
+       })
+
+       if (this.health <= 0) {
+           this.gui.removeImage(this)
+           roomTiles.splice(currentTileIndex, 1)
+           let dead = new Blood(this.position)
+           this.gui.addImage(dead)
+
+
+       }
     }
+
 
 
 }

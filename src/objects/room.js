@@ -10,7 +10,6 @@ import Enemy, {Skeleton, Bat, Badguy} from "./enemies.js";
 import Pickups, {Hammer, Key, Meat} from "./pickups.js";
 
 
-
  class Room {
     currentRoom;
     roomTiles = [];
@@ -20,10 +19,32 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
         this.hero = hero;
 
         let room = Room.getRoom(this.currentRoom);
+        let doorsInfo = room.split("\n").filter(cut => !cut.startsWith("# k") && cut.startsWith("# ")).map(linha => {
+            const linhaInfo = linha.split(" ");
+            console.log(linhaInfo)
+            return {
+                doorNumber: linhaInfo[1],
+                open: linhaInfo[2] === "E", //devolve true ou false
+                destinationRoom: linhaInfo[3],
+                destinationDoorNumber: linhaInfo[4],
+                key: linhaInfo[5]
+            };
+        })
+        let keyInfo;
+        //criar uma lista [
+        //{
+        //doorNumber: 0 ou 1 ou 2 etc....
+        //"open": true/false ("E" ou "D")
+        //"destinationRoom": room1.txt por exemplo
+        //"destinationDoorNumber": 1 por exemplo
+        //"key": undefined OU key1
+        //}
+        //]
+        console.log("doorsInfo",  doorsInfo)
 
         let lines = room.split("\n").filter(cut => !cut.startsWith("#"))//cut mas podia ser batatas =)
 //split e filter para ele ignorar os # no Room     e currentRoom n sei bem pq
-
+        console.log("lines", lines)
         for (let y = 0; y < lines.length; y++) {
             let actualLine = lines[y]
             let columns = actualLine.split("") //split do q?
@@ -56,7 +77,11 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
                         this.roomTiles.push(new Key(position))
                         break;
                     default :
-                        if(columns[x] === "1" || columns[x] === "2" || columns[x] === "0") this.roomTiles.push((new Door(position)))
+                        if(columns[x] === "1" || columns[x] === "2" || columns[x] === "0")  {
+                            let doorInfo = doorsInfo.find(d => d.doorNumber === columns[x])
+                            //TODO acabar de enviar a informacao da porta
+                            this.roomTiles.push((new Door(position, doorInfo.open)))
+                        }
                         break;
 
                 }
