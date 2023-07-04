@@ -9,10 +9,11 @@ import Pickups from "./pickups.js";
 class Enemy extends ImageTile {
 
 
-    constructor(position, damage) {
+
+    constructor(position) {
         super(position);
         this.health = 2
-        this.dmg = damage || 1//default é 1
+        this.dmg = 1
     }
 
 
@@ -55,7 +56,7 @@ class Enemy extends ImageTile {
         }
     }
 
-    moveEnemies(hero, roomTiles, newHeroPosition) {
+    moveEnemies(hero, roomTiles) {
         const distancia = Math.sqrt((hero.position.x - this.position.x) ** 2 + (hero.position.y - this.position.y) ** 2);
         //console.log(distancia)
 
@@ -77,6 +78,17 @@ class Enemy extends ImageTile {
         }
     }
 
+    enemyLoseHealth(dmg){
+        this.health -= dmg
+        return this.health
+
+    }
+
+   fightHero(hero) {
+        this.enemyLoseHealth(hero.dmg)
+        console.log(this)
+    }
+
 
 }
 
@@ -87,7 +99,7 @@ class Enemy extends ImageTile {
 
 class Bat extends Enemy {
     constructor(position) {
-        super(position, 2);
+        super(position);
     }
 
     get image() {

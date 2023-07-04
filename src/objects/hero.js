@@ -4,10 +4,10 @@ import Fireball from "./fireball.js";
 import Position from "../util/position.js";
 import Direction from "../util/direction.js";
 import Floor from "./floor.js";
-import Combat from "../game/combat.js";
 import Interface from "../game/interface.js";
-
-class Hero extends Combat {
+import Blood from "./blood.js";
+import Enemy from "./enemies.js";
+class Hero extends ImageTile {
     gui = Interface.getInstance();
     healthBar = new HealthBar()
     fireball = [new Fireball(new Position(0,-1)),
@@ -76,7 +76,7 @@ class Hero extends Combat {
         let item = this.items[itemIndex]
         if(item) {
             let tile = roomTiles.find(tile => !(tile instanceof Floor) && !(tile instanceof Hero) && tile.position.equals(dropPosition))
-            if (tile) throw new Error("Items nao podem estar na mesma posicao") // ainda n esta a funcionar
+            if (tile) throw new Error("Items nao podem estar na mesma posicao")
             else {
                 this.items.splice(itemIndex, 1)
                 return item
@@ -88,7 +88,18 @@ class Hero extends Combat {
         //atualizar vidas
         console.log("perdeste ", enemy.dmg, "de vida")
         this.healthBar.loseHealth(enemy.dmg)
+        console.log(this.healthBar)
         //ver se alguem morreu
+        if (this.healthBar.health === 0) {
+            this.gui.removeImage(this)
+            let dead = new Blood(this.position)
+            this.gui.addImage(dead)
+            this.gui.showMessage("Perdeu", "error", 2000)
+
+        }
+
+
+
 
     }
 

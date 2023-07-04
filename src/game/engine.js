@@ -11,14 +11,15 @@ import Fireball from "../objects/fireball.js";
 import Pickups from "../objects/pickups.js";
 import direction from "../util/direction.js";
 import hero from "../objects/hero.js";
-
+import Enemies from "../objects/enemies.js";
 
 
 class Engine {
-    hero = new Hero(new Position(3,7))
-    room = new Room(0,this.hero)
+    hero = new Hero(new Position(3, 7))
+    room = new Room(2, this.hero)
     gui = Interface.getInstance();
     statusbar = new StatusBar(this.hero);
+
 
     updateStatusImages() {
         //LIMPA
@@ -47,7 +48,7 @@ class Engine {
 
         this.gui.addImages(this.room.roomTiles);
         let isHeroInRoom = this.room.roomTiles.find((tile) => tile === this.hero);
-        if(!isHeroInRoom) this.room.roomTiles.push(this.hero);
+        if (!isHeroInRoom) this.room.roomTiles.push(this.hero);
 
         this.gui.addImage(this.hero);
         this.gui.addImages(this.statusbar.getBlackTiles())
@@ -56,7 +57,6 @@ class Engine {
 
         this.gui.start();
     }
-
 
 
     keyPressed(key) {
@@ -72,12 +72,13 @@ class Engine {
             if (["Down", "Up", "Right", "Left"].includes(direction)) {
                 let roomTiles = this.room.roomTiles;
                 let {nextTile, newHeroPosition} = this.hero.moveHero(direction, roomTiles)
+                let enemies = roomTiles.filter(imageTile => {
+                    return imageTile instanceof Enemy
+                })
+
                 if (!(nextTile instanceof Wall || nextTile instanceof Enemy)) {
                     this.hero.position = newHeroPosition;
                     //atualizar as posicoes dos inmigos
-                    let enemies = roomTiles.filter(imageTile => {
-                        return imageTile instanceof Enemy
-                    })
                     enemies.forEach((enemy) => {
                         enemy.moveEnemies(this.hero, this.room.roomTiles,)
                     })
@@ -94,9 +95,15 @@ class Engine {
 
                     }
 
-                } else if(nextTile instanceof Enemy) {
+                } else if (nextTile instanceof Enemy || nextTile instanceof Hero) {
                     //lutar
                     this.hero.fightEnemy(nextTile)
+                    nextTile.fightHero(this.hero)
+
+                    /*for (let enemy of enemies)
+                        enemy.fightHero(nextTile)
+*/
+
                     //atualizar status
                     this.updateStatusImages()
 
@@ -105,11 +112,11 @@ class Engine {
             }
             if (key === "1" || key === "2" || key === "3") {
 
-                    let item = this.hero.dropItem(key, this.room.roomTiles, this.hero.position);
-                    this.gui.removeStatusImage(item);
-                    item.position = this.hero.position;
-                    this.gui.addImage(item, this.hero)
-                    this.room.roomTiles.push(item)
+                let item = this.hero.dropItem(key, this.room.roomTiles, this.hero.position);
+                this.gui.removeStatusImage(item);
+                item.position = this.hero.position;
+                this.gui.addImage(item, this.hero)
+                this.room.roomTiles.push(item)
 
             }
             this.gui.update()
@@ -118,8 +125,6 @@ class Engine {
         }
     }
 }
-
-
 
 
 export default Engine;

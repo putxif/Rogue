@@ -25,7 +25,9 @@ class Fireball extends firetile {
             return this.position.equals(imageTile.position)
         })
         let nextTile = this.room.roomTiles[nextTileIndex]
-        if (nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy) {
+        if (!(nextTile instanceof Wall || nextTile instanceof Door || nextTile instanceof Enemy)) {
+            return false
+        } else {
             if (nextTile instanceof Enemy) {
                 this.gui.removeImage(nextTile)
                 this.room.roomTiles.splice(nextTileIndex, 1)
@@ -34,7 +36,6 @@ class Fireball extends firetile {
             }
             return true;
         }
-        return false
     }
 }
 
