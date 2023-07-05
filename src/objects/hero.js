@@ -74,6 +74,7 @@ class Hero extends ImageTile {
 
     dropItem(itemNumber, roomTiles, dropPosition) {//1, 2, 3
         let itemIndex = this.items.findIndex(item => item.position.x === +itemNumber + 6)
+        console.log(itemNumber)
         let item = this.items[itemIndex]
         if (item) {
             let tile = roomTiles.find(tile => !(tile instanceof Floor) && !(tile instanceof Hero) && tile.position.equals(dropPosition))
@@ -88,7 +89,7 @@ class Hero extends ImageTile {
     fightEnemy(enemy, roomTiles) { //fazer ao contrario, fight enemy o enemy perde dano
         //atualizar vidas
         // console.log("perdeste ", enemy.dmg, "de vida")
-        console.log("enemy", enemy)
+        //console.log("enemy", enemy)
         this.healthBar.loseHealth(enemy.dmg)
         let currentTileIndex = roomTiles.findIndex(imageTile => {
             return this.position.equals(imageTile.position)

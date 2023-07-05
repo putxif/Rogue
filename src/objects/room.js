@@ -22,6 +22,9 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
         let doorsInfo = room.split("\n").filter(cut => !cut.startsWith("# k") && cut.startsWith("# ")).map(linha => {
             const linhaInfo = linha.split(" ");
             console.log(linhaInfo)
+            //console.log("doorsInfo",  doorsInfo)
+
+
             return {
                 doorNumber: linhaInfo[1],
                 open: linhaInfo[2] === "E", //devolve true ou false
@@ -40,11 +43,10 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
         //"key": undefined OU key1
         //}
         //]
-        console.log("doorsInfo",  doorsInfo)
 
         let lines = room.split("\n").filter(cut => !cut.startsWith("#"))//cut mas podia ser batatas =)
 //split e filter para ele ignorar os # no Room     e currentRoom n sei bem pq
-        console.log("lines", lines)
+        // console.log("lines", lines)
         for (let y = 0; y < lines.length; y++) {
             let actualLine = lines[y]
             let columns = actualLine.split("") //split do q?
@@ -78,9 +80,9 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
                         break;
                     default :
                         if(columns[x] === "1" || columns[x] === "2" || columns[x] === "0")  {
-                            let doorInfo = doorsInfo.find(d => d.doorNumber === columns[x])
-                            //TODO acabar de enviar a informacao da porta
-                            this.roomTiles.push((new Door(position, doorInfo.open)))
+                            let doorInfo = doorsInfo.find(d => d.doorNumber === columns[x] || d.open === columns[x] || d.destinationDoorNumber=== columns[x])
+                            //enviar a informacao da porta
+                            this.roomTiles.push((new Door(position, doorInfo.open, doorInfo.doorNumber, doorInfo.destinationDoorNumber)))
                         }
                         break;
 

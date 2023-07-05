@@ -59,7 +59,7 @@ class Enemy extends ImageTile {
             this.position = nextPosition
         }
         if (nextTile instanceof Hero) {
-            console.log("dar dano ao hero")
+            //console.log("dar dano ao hero")
             nextTile.fightEnemy(this, surroundings)
         }
     }
@@ -94,7 +94,7 @@ class Enemy extends ImageTile {
 
    fightHero(hero, roomTiles) {  //aqui para o hero perder dano
         this.enemyLoseHealth(hero.dmg)
-        console.log(this)
+        //console.log(this)
        let currentTileIndex = roomTiles.findIndex(imageTile => {
            return this.position.equals(imageTile.position)
        })

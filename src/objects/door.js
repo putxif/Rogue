@@ -1,12 +1,17 @@
 import imageTile from "../game/imageTile.js";
 
 class Door extends imageTile {
+    doorNumber;
     open = false
-    //TODO adicionar campos em falta
+    destinationDoorNumber;
+    //campos em falta?
 
-    constructor(position, open) {
+    constructor(position, open, doorNumber, destinationDoorNumber) {
         super(position);
         this.open = open
+        this.doorNumber = doorNumber
+        this.destinationDoorNumber = destinationDoorNumber
+
     }
 
     get image() {
