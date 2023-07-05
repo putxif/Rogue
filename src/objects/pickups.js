@@ -31,9 +31,13 @@ class Meat extends Pickups {
 
 }
 class Key extends Pickups {
-    //TODO adicionar id da chave: "key1" "key2"
-    constructor(position) {
+    //adicionar id da chave: "key1" "key2"
+    keyId;
+    constructor(position,keyId) {
         super(position);
+        this.keyId = keyId
+        //this.keyId= 1 || 2;
+
     }
 
     get image() {

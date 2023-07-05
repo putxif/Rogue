@@ -150,6 +150,17 @@ class Badguy extends Enemy {
     }
 
 }
+class Thief extends Enemy {
+
+    constructor(position) {
+        super(position);
+    }
+
+    get image() {
+        return 'Thief.gif'
+    }
+
+}
 
 
 export {Skeleton, Bat, Badguy};
