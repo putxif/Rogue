@@ -26,8 +26,7 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
             return {
                 doorNumber: linhaInfo[1],
                 type: linhaInfo[2], ///escrito pelo prof
-                isOpen: !!linhaInfo[5], // !! feito pelo prof
-                destinationRoom: linhaInfo[3],
+                destinationRoom: linhaInfo[3].split("room")[1].split(".")[0],
                 destinationDoorNumber: linhaInfo[4],
                 key: linhaInfo[5]
             };
@@ -57,7 +56,7 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
         //"key": undefined OU key1
         //}
         //]
-      console.log("doorsInfo",  doorsInfo)
+      console.log("doorsInfo room",currentRoom,  doorsInfo)
 
         let lines = room.split("\n").filter(cut => !cut.startsWith("#"))//cut mas podia ser batatas =)
 //split e filter para ele ignorar os # no Room     e currentRoom n sei bem pq
@@ -96,16 +95,10 @@ import Pickups, {Hammer, Key, Meat} from "./pickups.js";
                         break;
                     default :
                         if(columns[x] === "1" || columns[x] === "2" || columns[x] === "0")  {
-                            let doorInfo = doorsInfo.find(d => d.doorNumber === columns[x] || d.isOpen === columns[x] || d.destinationDoorNumber=== columns[x])
+                            let doorInfo = doorsInfo.find(d => d.doorNumber === columns[x])
                             //enviar a informacao da porta
-                            if(doorInfo.type === "D") { //if do professor
-                                let door = new Door(position,doorInfo.doorNumber, doorInfo.isOpen, doorInfo.destinationRoom, doorInfo.destinationDoorNumber);
-                                this.roomTiles.push(door) //criou let door e passou o q tava dentro do push para la e pushou a variavel
-
-                            } else {
-                                //entrance foi o professor
-                            }
-
+                            let door = new Door(position,doorInfo.doorNumber,doorInfo.type, doorInfo.destinationRoom, doorInfo.destinationDoorNumber, doorInfo.key);
+                            this.roomTiles.push(door) //criou let door e passou o q tava dentro do push para la e pushou a variavel
                         }
                         break;
 

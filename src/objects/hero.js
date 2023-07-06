@@ -73,7 +73,7 @@ class Hero extends ImageTile {
         }
 
         else {
-            if(item instanceof Hammer){ //para quando tenho hammer da 2 de dano , mas depois quando dropo, continuo a ter 2 de dmg ,,, acrescentar algo ao drop item
+            if(item instanceof Hammer){
                 this.dmg = 2
             }
             item.position = new Position(6 + this.items.length + 1, -1)

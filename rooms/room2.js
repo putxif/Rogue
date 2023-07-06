@@ -11,7 +11,7 @@ W        W
 W  m  k  W
 W        W
 W      W W
-W     BWhW
+W    B WhW
 W   WWWW W
 0   W    W
 WWWWW1WWWW

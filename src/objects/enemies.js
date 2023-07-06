@@ -101,8 +101,11 @@ class Enemy extends ImageTile {
 
        if (this.health <= 0) {
            this.gui.removeImage(this)
+           console.log("gui.images",this.gui.getImages())
            roomTiles.splice(currentTileIndex, 1)
+           //console.log(roomTiles)
            let dead = new Blood(this.position)
+           roomTiles.push(dead)
            this.gui.addImage(dead)
 
 

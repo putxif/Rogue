@@ -174,5 +174,9 @@ class Interface {
             this.update();
         }, 150);
     }
+
+    getImages() {
+        return this.#images;
+    }
 }
 export default Interface;
