@@ -7,6 +7,7 @@ import Floor from "./floor.js";
 import Interface from "../game/interface.js";
 import Blood from "./blood.js";
 import Enemy from "./enemies.js";
+import {Hammer, Meat} from "./pickups.js";
 
 class Hero extends ImageTile {
     gui = Interface.getInstance();
@@ -65,24 +66,37 @@ class Hero extends ImageTile {
         //verificar se pode apanhar item
         if (this.items.length === 3) {
             throw "Items cheio"
-        } else {
+        } if(item instanceof Meat && this.healthBar.health < 8) {
+            this.healthBar.gainHealth(item.health)
+            //// falta a meat desaparecer
+            console.log("ajjajahsajhs")
+        }
+
+        else {
+            if(item instanceof Hammer){ //para quando tenho hammer da 2 de dano , mas depois quando dropo, continuo a ter 2 de dmg ,,, acrescentar algo ao drop item
+                this.dmg = 2
+            }
             item.position = new Position(6 + this.items.length + 1, -1)
             this.items.push(item)
+
         }
         console.log(this.items)
     }
 
     dropItem(itemNumber, roomTiles, dropPosition) {//1, 2, 3
         let itemIndex = this.items.findIndex(item => item.position.x === +itemNumber + 6)
-        console.log(itemNumber)
+        //console.log(itemNumber)
         let item = this.items[itemIndex]
         if (item) {
+            if(item instanceof Hammer)
+                this.dmg = 1
             let tile = roomTiles.find(tile => !(tile instanceof Floor) && !(tile instanceof Hero) && tile.position.equals(dropPosition))
             if (tile) throw new Error("Items nao podem estar na mesma posicao")
             else {
                 this.items.splice(itemIndex, 1)
                 return item
             }
+
         } else throw new Error("Item não foi encontrado")
     }
 

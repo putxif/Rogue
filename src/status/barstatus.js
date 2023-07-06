@@ -15,7 +15,7 @@ export class StatusBar {
 
     getBlackTiles() {
         let blackBar = []
-        for (let i = 0; i <= 9; i++) blackBar.push(new Black(new Position( 0 + i, -1)))
+        for (let i = 0; i <= 9; i++) blackBar.push(new Black(new Position(i , -1)))
 
         return blackBar
     }

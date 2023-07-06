@@ -2,15 +2,17 @@ import imageTile from "../game/imageTile.js";
 
 class Door extends imageTile {
     doorNumber;
-    open = false
+    type;
+    isOpen; //trocar o nome disto ta me a confundir p crl ou tirar mesmo pq n sei pq preciso disto
     destinationRoom;
     destinationDoorNumber;
-    key;
+    key; //maybe not?
     //campos em falta?
 
-    constructor(position, open, doorNumber, destinationRoom, destinationDoorNumber, key) {
+    constructor(position, isOpen, doorNumber, type, destinationRoom, destinationDoorNumber, key) {
         super(position);
-        this.open = open
+        this.isOpen = isOpen
+        this.type = type //isto foi o prof
         this.doorNumber = doorNumber
         this.destinationRoom = destinationRoom
         this.destinationDoorNumber = destinationDoorNumber
@@ -19,11 +21,14 @@ class Door extends imageTile {
     }
 
     get image() {
-        if (this.open) {
+        if (this.type) {
             return "DoorOpen.png";
         }
         return "DoorClosed.png"
     }
+
+
+
 }
 
 export default Door;

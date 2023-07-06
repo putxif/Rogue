@@ -22,6 +22,7 @@ export class HealthBar {
     }
 
     gainHealth(earningValue) {
+        //if(this.health < 8)
         this.health += earningValue
         return this.health
     }

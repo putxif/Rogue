@@ -16,7 +16,7 @@ import Enemies from "../objects/enemies.js";
 
 class Engine {
     hero = new Hero(new Position(3, 7))
-    room = new Room(1, this.hero)
+    room = new Room(0, this.hero)
     gui = Interface.getInstance();
     statusbar = new StatusBar(this.hero);
 
@@ -44,6 +44,8 @@ class Engine {
         }
 
         this.gui.addImages(floorTiles);
+
+
 
 
         this.gui.addImages(this.room.roomTiles);

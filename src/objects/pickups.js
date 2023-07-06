@@ -20,6 +20,7 @@ class Hammer extends Pickups {
 }
 
 class Meat extends Pickups {
+    health = 1
     constructor(position) {
         super(position);
     }

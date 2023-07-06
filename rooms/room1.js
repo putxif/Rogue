@@ -1,7 +1,7 @@
 export default `
 #
 # 0 D room2.txt 1
-# 1 D room2.txt 0 key1
+# 1 D room2.txt 0 key1 //esta porta deste lado esta aberta
 # 2 E room0.txt 0
 #
 # k key2
